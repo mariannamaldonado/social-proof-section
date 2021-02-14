@@ -1,0 +1,326 @@
+:root {
+    --very--dark--magenta: hsl(300, 43%, 22%);
+    --soft--pink: hsl(333, 80%, 67%);
+    --dark--grayish--magenta: hsl(303, 10%, 53%);
+    --light--grayish--magenta: hsl(300, 24%, 96%);
+    --white: hsl(0, 0%, 100%);
+    --primary-font: 'Spartan', sans-serif;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  body, p, blockquote {
+    margin: 0;
+  }
+  
+  body {
+    font-family: var(--primary-font);
+    padding: 80px 24px 100px;
+  
+    /*
+     * Es importante darle un min-height de 100vh al height del body porque
+     * si no se lo diésemos, en pantallas que sean muy altas el body quedaría
+     * "cortado" a la mitad (veríamos cómo el fondo inferior se posicionaría
+     * por la mitad de la pantalla más o menos, o donde acabase el body). De
+     * esta manera, conseguimos que en esas pantallas que son muy grandes el
+     * fondo inferior baje siempre hasta el borde inferior de la pantalla.
+     *
+    */
+    min-height: 100vh;
+  
+    /*
+     * Para que el fondo del bottom se nos quede siempre abajo del body,
+     * usamos la propiedad background-image y la posicionamos en la parte
+     * inferior derecha con background-position en lugar de asignarla con
+     * body::after. También le decimos que ocupe el 100% del ancho y que
+     * tenga un alto de 300px para que no se redimensione de manera
+     * desproporcionada.
+     * Utilizamos background-image y background-position en lugar del
+     * pseudoelemento ::before del body porque si lo hiciésemos así no
+     * habría manera (o al menos a mí no se me ocurre) de hacer que el
+     * círculo inferior de fondo esté siempre abajo del body
+     * independientemente del contenido que tenga.
+    */
+    background-image: url(../images/bg-pattern-bottom-mobile.svg);
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    background-size: 100% 300px;
+  }
+  
+  @media screen and (min-width: 1024px) {
+    body {
+      /*
+       * En este caso, cuando se da display: flex al body es necesario
+       * decirle que alinee su contenido al inicio (align-content: flex-start;)
+       * porque si no lo hacemos, el contenido quedará completamente desmaquetado
+       * puesto que tratará de distribuir su contenido de una manera que no es la
+       * que deseamos. Para ver a qué me refiero, podéis inspeccionar la web y
+       * eliminar o deshabilitar el align-content del body a partir de 1024px.
+      */
+      display: flex;
+      align-content: flex-start;
+      flex-wrap: wrap;
+      background-image: url(../images/bg-pattern-bottom-desktop.svg);
+    }
+  }
+  
+  body::before {
+    position: absolute;
+  }
+  
+  body::before {
+    top: 0;
+    left: 0;
+    content: url(../images/bg-pattern-top-mobile.svg);
+    z-index: -1;
+  }
+  
+  @media screen and (min-width: 1024px) {
+    body::before {
+      content: url(../images/bg-pattern-top-desktop.svg);
+    }
+  }
+  
+  @media screen and (min-width: 1280px) {
+    body {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 100px 0;
+    }
+  }
+  
+  .main-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  
+  @media screen and (min-width: 1024px) {
+    .main-header {
+      width: 50%;
+      margin-bottom: 60px;
+    }
+  }
+  
+  .main-header .title {
+    color: var(--very--dark--magenta);
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: -3px;
+    line-height: 32px;
+    margin: 0 0 32px;
+    padding: 0 16px;
+  }
+  
+  @media screen and (min-width: 1024px) {
+    .main-header .title {
+      text-align: left;
+      padding: 0;
+      font-size: 40px;
+      max-width: 375px;
+      line-height: 45px;
+      margin-bottom: 16px;
+    }
+  }
+  
+  .main-header .description {
+    color: var(--dark--grayish--magenta);
+    font-size: 15px;
+    line-height: 1.75;
+    font-weight: 500;
+    letter-spacing: -1px;
+  }
+  
+  @media screen and (min-width: 1024px) {
+    .main-header .description {
+      text-align: left;
+      max-width: 400px;
+    }
+  }
+  
+  /* Rates */
+  
+  .rates-container {
+    margin-bottom: 3rem;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .rates-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  }
+  
+  @media screen and (min-width: 1024px) {
+    .rates-container {
+      width: 50%;
+      margin-bottom: 0; /* Se limpia margen innecesario */
+      justify-content: flex-end;
+      align-self: flex-start;
+    }
+  }
+  
+  .rate {
+    background-color: var(--light--grayish--magenta);
+    text-align: center;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  
+  .rate:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .rate {
+      width: 300px;
+    }
+  
+    .rate:first-child {
+      margin-right: 1rem;
+    }
+  }
+  
+  @media screen and (min-width: 1024px) {
+    .rate {
+      display: flex;
+      width: auto;
+      margin-right: 0;
+      align-items: center;
+      padding: 1rem 2rem;
+      width: 375px;
+    }
+  
+    /*
+     * En lugar de alinear las cajitas con estrellas con margen
+     * a la izquierda, lo que hacemos es llevar todas las cajitas
+     * a la derecha (.rates-container tiene un justify-content:
+     * flex-end) y vamos asignando margen a la derecha de cada
+     * caja. De esta manera lo que conseguimos es que la última
+     * caja se quede perfectamente alineada con la última caja de
+     * los testimonios.
+     *
+    */
+  
+    .rate:first-child {
+      margin-right: 6rem;
+    }
+  
+    .rate:nth-child(2) {
+      margin-right: 3rem;
+    }
+  }
+  
+  .rate .stars-container {
+    margin-bottom: .5rem;
+  }
+  
+  @media screen and (min-width: 1024px) {
+    .rate .stars-container {
+      margin-bottom: 0;
+      margin-right: 2rem;
+      align-self: flex-start;
+    }
+  }
+  
+  .rate .rating {
+    color: var(--very--dark--magenta);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  
+  .rate .star {
+    width: 1rem;
+  }
+  
+  /* Testimonials */
+  
+  @media screen and (min-width: 768px) {
+    .testimonials-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+  
+  @media screen and (min-width: 1280px) {
+    .testimonials-container {
+      flex-wrap: initial;
+      align-items: flex-start;
+    }
+  }
+  
+  .testimonial {
+    background-color: var(--very--dark--magenta);
+    padding: 2rem;
+    border-radius: 8px;
+  }
+  
+  .testimonial:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .testimonial {
+      width: calc(50% - .5rem);
+      text-align: left;
+    }
+  
+    .testimonial:first-child {
+      margin-right: 1rem;
+    }
+  }
+  
+  @media screen and (min-width: 1280px) {
+    .testimonial:not(:last-child) {
+      margin-bottom: 0;
+    }
+    
+    .testimonial:not(:last-child) {
+      margin-right: 2.5rem;
+    }
+  
+    .testimonial:nth-child(2) {
+      margin-top: 1rem;
+    }
+  
+    .testimonial:last-child {
+      margin-top: 2rem;
+    }
+  }
+  
+  .testimonial .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .testimonial .profile-picture {
+    border-radius: 50%;
+    width: 40px;
+    margin-right: 1.5rem;
+  }
+  
+  .testimonial .title,
+  .testimonial .user-role,
+  .testimonial .comment {
+    font-size: 13px;
+  }
+  
+  .testimonial .title {
+    color: var(--white);
+    margin: 0;
+    margin-bottom: 4px;
+    font-weight: 400;
+  }
+  
+  .testimonial .user-role {
+    color: var(--soft--pink);
+  }
+  
+  .testimonial .comment {
+    color: var(--white);
+    line-height: 22px;
+  }
